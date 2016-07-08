@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static boolean multipleRoundsTest = false;
-    public static double total = 1;
+    public static boolean multipleRoundsTest = true;
+    public static double total = 20;
 
     public static void main(String[] args) throws InterruptedException {
 
