@@ -4,17 +4,17 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static boolean multipleRoundsTest = true;
     public static double total = 20;
+    public static boolean multipleRoundsTest = false;
 
     public static void main(String[] args) throws InterruptedException {
 
-
+        multipleRoundsTest = total > 1;
         //Player one = new Player("Player 1", Player.Side.BLACK);
         //Player two = new Player("Player 2", Player.Side.WHITE);
 
-        MinimaxAI one = new MinimaxAI(Player.Side.BLACK, 4);
-        //MinimaxAI two = new MinimaxAI(Player.Side.WHITE, 4);
+        MinimaxAI one = new MinimaxAI(Player.Side.BLACK, 6);
+        //MinimaxAI two = new MinimaxAI(Player.Side.WHITE, 3);
 
         //RandomAI one = new RandomAI(Player.Side.BLACK);
         RandomAI two = new RandomAI(Player.Side.WHITE);

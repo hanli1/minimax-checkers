@@ -96,10 +96,12 @@ public class MinimaxAI extends Player implements AI{
             return getHeuristic(board);
         }
         List<Move> possibleMoves = board.getAllValidMoves(side);
-        List<Double> heuristics = new ArrayList<>();
 
-        DecimalFormat df = new DecimalFormat("##.###");
-        df.setRoundingMode(RoundingMode.HALF_UP);
+        double initial = 0;
+        if(maximizingPlayer)
+            initial = Double.NEGATIVE_INFINITY;
+        else
+            initial = Double.POSITIVE_INFINITY;
 
         Board tempBoard = null;
         for(int i = 0; i < possibleMoves.size(); i++)
@@ -107,6 +109,7 @@ public class MinimaxAI extends Player implements AI{
             tempBoard = board.clone();
             tempBoard.makeMove(possibleMoves.get(i), side);
             double result = minimax(tempBoard, depth - 1, flipSide(side), !maximizingPlayer, alpha, beta);
+
             if(maximizingPlayer && result > alpha)
                 alpha = result;
             else if (!maximizingPlayer && result < beta)
@@ -118,17 +121,14 @@ public class MinimaxAI extends Player implements AI{
                 return beta;
             }
             //heuristics.add(Double.parseDouble(df.format(result)));
-            heuristics.add(result);
+            //heuristics.add(result);
+            if((maximizingPlayer && result > initial) || (!maximizingPlayer && result < initial))
+                initial = result;
             //System.out.println(result + " vs " + heuristics.get(heuristics.size() - 1));
         }
         //System.out.println("Minimax at depth: " + depth + "\n" + heuristics);
 
-        if(maximizingPlayer)
-        {
-            return getMax(heuristics);
-        }
-        else
-            return getMin(heuristics);
+        return initial;
     }
 
     private double getHeuristic(Board b)
@@ -157,29 +157,5 @@ public class MinimaxAI extends Player implements AI{
         if(side == Side.BLACK)
             return Side.WHITE;
         return Side.BLACK;
-    }
-
-    public double getMax(List<Double> list)
-    {
-        double max = Double.MIN_VALUE;
-        for(int i = 0; i < list.size(); i++) {
-            double val = list.get(i);
-            if (val > max)
-                max = val;
-
-        }
-        return max;
-    }
-
-    public double getMin(List<Double> list)
-    {
-        double min = Double.MAX_VALUE;
-        for(int i = 0; i < list.size(); i++)
-        {
-            double val = list.get(i);
-            if(val < min)
-                min = val;
-        }
-        return min;
     }
 }
