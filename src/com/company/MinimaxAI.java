@@ -14,6 +14,7 @@ public class MinimaxAI extends Player implements AI{
     private int depth;
     private long totalTimeElapsed;
     private double numMovesCalled;
+    private int pruned = 0;
     public MinimaxAI(String name, Side s)
     {
         super(name, s);
@@ -35,6 +36,8 @@ public class MinimaxAI extends Player implements AI{
         Board.Decision decision = board.makeMove(m, getSide());
         if(decision == Board.Decision.ADDITIONAL_MOVE)
             skippingPoint = m.getEnd();
+
+        //System.out.println("Pruned tree: " + pruned + " times");
         return decision;
     }
     public String getAverageTimePerMove()
@@ -117,8 +120,12 @@ public class MinimaxAI extends Player implements AI{
 
             if(alpha >= beta)
             {
+                pruned++;
                 //beta pruning, don't look throw child and return
-                return beta;
+                if(maximizingPlayer)
+                    return beta;
+                else
+                    return alpha;
             }
             //heuristics.add(Double.parseDouble(df.format(result)));
             //heuristics.add(result);

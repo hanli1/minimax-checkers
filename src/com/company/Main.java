@@ -14,10 +14,10 @@ public class Main {
         //Player two = new Player("Player 2", Player.Side.WHITE);
 
         MinimaxAI one = new MinimaxAI(Player.Side.BLACK, 6);
-        //MinimaxAI two = new MinimaxAI(Player.Side.WHITE, 3);
+        MinimaxAI two = new MinimaxAI(Player.Side.WHITE, 3);
 
         //RandomAI one = new RandomAI(Player.Side.BLACK);
-        RandomAI two = new RandomAI(Player.Side.WHITE);
+        //RandomAI two = new RandomAI(Player.Side.WHITE);
 
         //one goes first if true;
         boolean turn = true;
