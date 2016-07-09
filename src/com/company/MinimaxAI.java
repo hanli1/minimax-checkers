@@ -101,39 +101,42 @@ public class MinimaxAI extends Player implements AI{
         List<Move> possibleMoves = board.getAllValidMoves(side);
 
         double initial = 0;
-        if(maximizingPlayer)
-            initial = Double.NEGATIVE_INFINITY;
-        else
-            initial = Double.POSITIVE_INFINITY;
-
         Board tempBoard = null;
-        for(int i = 0; i < possibleMoves.size(); i++)
+        if(maximizingPlayer)
         {
-            tempBoard = board.clone();
-            tempBoard.makeMove(possibleMoves.get(i), side);
-            double result = minimax(tempBoard, depth - 1, flipSide(side), !maximizingPlayer, alpha, beta);
-
-            if(maximizingPlayer && result > alpha)
-                alpha = result;
-            else if (!maximizingPlayer && result < beta)
-                beta = result;
-
-            if(alpha >= beta)
+            initial = Double.NEGATIVE_INFINITY;
+            for(int i = 0; i < possibleMoves.size(); i++)
             {
-                pruned++;
-                //beta pruning, don't look throw child and return
-                if(maximizingPlayer)
-                    return beta;
-                else
-                    return alpha;
+                tempBoard = board.clone();
+                tempBoard.makeMove(possibleMoves.get(i), side);
+
+                double result = minimax(tempBoard, depth - 1, flipSide(side), !maximizingPlayer, alpha, beta);
+
+                initial = Math.max(result, initial);
+                alpha = Math.max(alpha, initial);
+
+                if(alpha >= beta)
+                    break;
             }
-            //heuristics.add(Double.parseDouble(df.format(result)));
-            //heuristics.add(result);
-            if((maximizingPlayer && result > initial) || (!maximizingPlayer && result < initial))
-                initial = result;
-            //System.out.println(result + " vs " + heuristics.get(heuristics.size() - 1));
         }
-        //System.out.println("Minimax at depth: " + depth + "\n" + heuristics);
+        //minimizing
+        else
+        {
+            initial = Double.POSITIVE_INFINITY;
+            for(int i = 0; i < possibleMoves.size(); i++)
+            {
+                tempBoard = board.clone();
+                tempBoard.makeMove(possibleMoves.get(i), side);
+
+                double result = minimax(tempBoard, depth - 1, flipSide(side), !maximizingPlayer, alpha, beta);
+
+                initial = Math.min(result, initial);
+                alpha = Math.min(alpha, initial);
+
+                if(alpha >= beta)
+                    break;
+            }
+        }
 
         return initial;
     }

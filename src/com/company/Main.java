@@ -4,17 +4,17 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static double total = 20;
+    public static double total = 1;
     public static boolean multipleRoundsTest = false;
 
     public static void main(String[] args) throws InterruptedException {
 
         multipleRoundsTest = total > 1;
-        //Player one = new Player("Player 1", Player.Side.BLACK);
+        Player one = new Player("Player 1", Player.Side.BLACK);
         //Player two = new Player("Player 2", Player.Side.WHITE);
 
-        MinimaxAI one = new MinimaxAI(Player.Side.BLACK, 6);
-        MinimaxAI two = new MinimaxAI(Player.Side.WHITE, 3);
+        //MinimaxAI one = new MinimaxAI(Player.Side.BLACK, 3);
+        MinimaxAI two = new MinimaxAI(Player.Side.WHITE, 6);
 
         //RandomAI one = new RandomAI(Player.Side.BLACK);
         //RandomAI two = new RandomAI(Player.Side.WHITE);
@@ -51,7 +51,10 @@ public class Main {
                 }
                 else {
                     String text = sc.nextLine();
-
+                    if(text.equals("board"))
+                    {
+                        println(board.toString());
+                    }
                     if (text.equals("rand"))
                     {
                         decision = current.makeRandomMove(board);
@@ -73,9 +76,10 @@ public class Main {
                                 s[i] = Integer.parseInt(split[i]);
                             }
                             m = new Move(s[0], s[1], s[2], s[3]);
-                            decision = current.makeMove(m, board);
+
 
                         }
+                        decision = current.makeMove(m, board);
                     }
 
 
